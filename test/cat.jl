@@ -477,4 +477,9 @@ end
     @test reduce(vcat, (df1, df2)) == DataFrame(a=[1, 1], b=[2, 2])
 end
 
+@testset "vcat type piracy" begin
+    x = Int[]
+    @test reduce(vcat, Union{}[], init=x) === x
+end
+
 end # module

@@ -1956,6 +1956,10 @@ Base.reduce(::typeof(vcat),
             init::AbstractDataFrame=DataFrame()) =
     reduce(vcat, collect(AbstractDataFrame, dfs), cols=cols, source=source, init=init)
 
+# definition fixing type piracy
+Base.reduce(op::typeof(vcat), A::AbstractVector{Union{}}; kw...) =
+    mapreduce(identity, op, A; kw...)
+
 function _vcat(dfs::AbstractVector{AbstractDataFrame};
                cols::Union{Symbol, AbstractVector{Symbol},
                            AbstractVector{<:AbstractString}}=:setequal)
